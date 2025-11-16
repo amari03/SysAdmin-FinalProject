@@ -1,0 +1,13 @@
+# Git files
+.git
+.gitignore
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# Local development files and artifacts
+.envrc
+*.envrc
+*.exe
+*.out
