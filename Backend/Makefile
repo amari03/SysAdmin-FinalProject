@@ -7,7 +7,7 @@ run:
 	@go run ./cmd/api \
 	-port=4000 \
 	-env=development \
-	-db-dsn=${FEEL_FLOW_DB_DSN} \
+	-db-dsn=${SYSADMIN_DB_DSN} \
 	-smtp-host=${SMTP_HOST} \
 	-smtp-port=${SMTP_PORT} \
 	-smtp-username=${SMTP_USERNAME} \
@@ -18,7 +18,7 @@ run:
 ## db/psql: connect to the database using psql (terminal)
 .PHONY: db/psql
 db/psql:
-	psql ${FEEL_FLOW_DB_DSN}
+	psql ${SYSADMIN_DB_DSN}
 
 ## db/migrations/new: create a new database migration
 .PHONY: db/migrations/new
@@ -30,4 +30,4 @@ db/migrations/new:
 .PHONY: db/migrations/up
 db/migrations/up:
 	@echo 'Running up migrations...'
-	migrate -path ./migrations -database ${FEEL_FLOW_DB_DSN} up
+	migrate -path ./migrations -database ${SYSADMIN_DB_DSN} up
