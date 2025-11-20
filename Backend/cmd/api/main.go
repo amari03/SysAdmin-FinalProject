@@ -82,6 +82,7 @@ func main() {
 	appInstance := &applicationDependencies{
 		config: settings,
 		logger: logger,
+		models: data.NewModels(db),
 		mailer: mailer.New(settings.smtp.host, settings.smtp.port, settings.smtp.username, settings.smtp.password, settings.smtp.sender),
 	}
 

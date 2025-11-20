@@ -12,6 +12,9 @@ func (a *applicationDependencies) routes() http.Handler {
 	router.NotFound = http.HandlerFunc(a.notFoundResponse)
 	router.MethodNotAllowed = http.HandlerFunc(a.methodNotAllowedResponse)
 
+	// HealthCheck handler
+	router.HandlerFunc(http.MethodGet, "/v1/healthcheck", a.healthCheckHandler)
+
 	// User routes (some public, some protected)
 	router.HandlerFunc(http.MethodPost, "/v1/users", a.registerUserHandler)
 	router.HandlerFunc(http.MethodPut, "/v1/users/activated", a.activateUserHandler)
