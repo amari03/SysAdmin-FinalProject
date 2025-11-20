@@ -16,8 +16,9 @@ COPY . .
 
 # Build the Go application, creating a statically linked binary.
 # CGO_ENABLED=0 is important for creating a pure Go binary.
-# -o /server names the output file 'server'.
-RUN CGO_ENABLED=0 GOOS=linux go build -o /server
+# Build the application, pointing Go to the directory containing main.go.
+# The path './cmd/api' is relative to the WORKDIR /app.
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /server ./cmd/api
 
 # ---- Final Stage ----
 # Use a minimal, non-root base image for the final container.
