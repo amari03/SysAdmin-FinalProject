@@ -8,6 +8,9 @@ import (
 func (a *applicationDependencies) routes() http.Handler {
 	router := httprouter.New()
 
+	// Disable httprouter's automatic OPTIONS handling.
+    router.HandleOPTIONS = false
+
 	// Custom error handlers
 	router.NotFound = http.HandlerFunc(a.notFoundResponse)
 	router.MethodNotAllowed = http.HandlerFunc(a.methodNotAllowedResponse)

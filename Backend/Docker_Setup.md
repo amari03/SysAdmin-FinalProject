@@ -29,7 +29,7 @@ This command starts the container. It connects your local port `4000` to the con
 **Important:** Replace `YOUR_MAILTRAP_USERNAME` and `YOUR_MAILTRAP_PASSWORD` with your actual Mailtrap credentials.
 
 ```Cmd
-docker run -d -p 4000:4000 --name my-backend-container sysadmin-backend ./server -db-dsn="postgres://sysadmin:fishsticks@host.docker.internal:5432/sysadmin?sslmode=disable" -smtp-host="smtp.mailtrap.io" -smtp-port=2525 -smtp-username="YOUR_MAILTRAP_USERNAME" -smtp-password="YOUR_MAILTRAP_PASSWORD" -smtp-sender="SysAdmin App <no-reply@sysadmin.com>"
+docker run -d -p 4000:4000 --name my-backend-container sysadmin-backend ./server -db-dsn="postgres://sysadmin:fishsticks@host.docker.internal:5432/sysadmin?sslmode=disable" -smtp-host="smtp.mailtrap.io" -smtp-port=2525 -smtp-username="YOUR_MAILTRAP_USERNAME" -smtp-password="YOUR_MAILTRAP_PASSWORD" -smtp-sender="SysAdmin App <no-reply@sysadmin.com>" -cors-trusted-origins="http://localhost:5173"
 ```
 
 ## Linux Setup Instructions (Bash Terminal)
@@ -54,7 +54,7 @@ This command is nearly identical to the Windows version, but includes the `--add
 **Important:** Replace `YOUR_MAILTRAP_USERNAME` and `YOUR_MAILTRAP_PASSWORD` with your actual Mailtrap credentials.
 
 ```Bash
-docker run -d -p 4000:4000 --name my-backend-container --add-host=host.docker.internal:host-gateway sysadmin-backend ./server -db-dsn="postgres://sysadmin:fishsticks@host.docker.internal:5432/sysadmin?sslmode=disable" -smtp-host="smtp.mailtrap.io" -smtp-port=2525 -smtp-username="YOUR_MAILTRAP_USERNAME" -smtp-password="YOUR_MAILTRAP_PASSWORD" -smtp-sender="SysAdmin App <no-reply@sysadmin.com>"
+docker run -d -p 4000:4000 --name my-backend-container --add-host=host.docker.internal:host-gateway sysadmin-backend ./server -db-dsn="postgres://sysadmin:fishsticks@host.docker.internal:5432/sysadmin?sslmode=disable" -smtp-host="smtp.mailtrap.io" -smtp-port=2525 -smtp-username="YOUR_MAILTRAP_USERNAME" -smtp-password="YOUR_MAILTRAP_PASSWORD" -smtp-sender="SysAdmin App <no-reply@sysadmin.com>" -cors-trusted-origins="http://localhost:5173"
 ```
 
 ### Testing and Troubleshooting (For Both Platforms)
