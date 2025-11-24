@@ -1,27 +1,40 @@
 <script>
-  import { login } from '../lib/auth.js';
   import { goto } from '$app/navigation';
 
+  let name = '';
   let email = '';
   let password = '';
-  let errorMessage = '';
+  let message = '';
+  let isError = false;
 
-  async function handleSubmit() {
-    errorMessage = '';
+  async function handleSignUp() {
+    message = '';
+    isError = false;
     try {
-      await login(email, password);
+      const response = await fetch('http://localhost:4000/v1/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        const errorMessage = data.error?.message || JSON.stringify(data.error);
+        throw new Error(errorMessage || 'Sign up failed.');
+      }
+      message = "Success! Please check your email to activate your account.";
     } catch (error) {
-      errorMessage = error.message;
+      isError = true;
+      message = error.message;
     }
   }
-  
-  function goToSignUp() {
-    goto('/signup');
+
+  function goToLogin() {
+    goto('/');
   }
 </script>
 
 <main>
-  <div class="login-container">
+  <div class="signup-container">
     <div class="header">
       <div class="icon">
         <div class="emoji-carousel">
@@ -44,11 +57,22 @@
           <span>😢</span>
         </div>
       </div>
-      <h1>Welcome Back</h1>
-      <p class="subtitle">Log in to Feel Flow. Let your feelings flow freely!</p>
+      <h1>Join Feel Flow</h1>
+      <p class="subtitle">Start tracking your emotional journey</p>
     </div>
 
-    <form on:submit|preventDefault={handleSubmit}>
+    <form on:submit|preventDefault={handleSignUp}>
+      <div class="input-group">
+        <label for="name">Name</label>
+        <input 
+          type="text" 
+          id="name" 
+          bind:value={name} 
+          placeholder="Your name"
+          required 
+        />
+      </div>
+
       <div class="input-group">
         <label for="email">Email</label>
         <input 
@@ -71,23 +95,34 @@
         />
       </div>
 
-      {#if errorMessage}
+      {#if message && isError}
         <div class="error-message">
           <span class="error-icon">⚠️</span>
-          {errorMessage}
+          {message}
         </div>
       {/if}
 
-      <button type="submit" class="primary-button">Log In</button>
+      {#if message && !isError}
+        <div class="success-message">
+          <span class="success-icon">✓</span>
+          {message}
+        </div>
+      {/if}
+
+      <button type="submit" class="primary-button">Create Account</button>
       
       <div class="divider">
         <span>or</span>
       </div>
 
-      <button type="button" class="secondary-button" on:click={goToSignUp}>
-        Create New Account
+      <button type="button" class="secondary-button" on:click={goToLogin}>
+        Back to Login
       </button>
     </form>
+
+    <p class="terms">
+      By signing up, you agree to our Terms of Service and Privacy Policy
+    </p>
   </div>
 </main>
 
@@ -106,7 +141,7 @@
     padding: 2rem 1rem;
   }
 
-  .login-container {
+  .signup-container {
     background: white;
     border-radius: 24px;
     padding: 3rem 2.5rem;
@@ -133,12 +168,11 @@
 
   .emoji-carousel {
     display: flex;
-    gap: 2rem;
     animation: scroll 12s linear infinite;
   }
 
   .emoji-carousel span {
-    min-width: 3rem;
+    min-width: 5rem;
     text-align: center;
   }
 
@@ -147,7 +181,7 @@
       transform: translateX(0);
     }
     100% {
-      transform: translateX(-50%);
+      transform: translateX(calc(-5rem * 8));
     }
   }
 
@@ -280,8 +314,34 @@
     font-size: 1.1rem;
   }
 
+  .success-message {
+    background: #f0fff4;
+    color: #276749;
+    padding: 0.875rem 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid #9ae6b4;
+  }
+
+  .success-icon {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+
+  .terms {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #a0aec0;
+    margin-top: 1.5rem;
+    line-height: 1.4;
+  }
+
   @media (max-width: 480px) {
-    .login-container {
+    .signup-container {
       padding: 2rem 1.5rem;
     }
 
