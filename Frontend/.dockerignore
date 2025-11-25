@@ -1,0 +1,15 @@
+# Git and environment files
+.git
+.gitignore
+.envrc
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# SvelteKit build artifacts and cache
+.svelte-kit/
+build/
+
+# Dependencies - we will install these inside the container
+node_modules/

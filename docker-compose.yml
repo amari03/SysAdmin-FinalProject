@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # The Go Backend Service
+  backend:
+    build: ./backend
+    container_name: sysadmin-backend-compose
+    ports:
+      - "4000:4000"
+    # This 'extra_hosts' is needed for Linux to correctly resolve host.docker.internal.
+    # It also works on Windows/Mac, making the config universal.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # We pass the runtime configuration using a 'command' block, just like with 'docker run'.
+    command: >
+      ./server
+      dsn="postgres://sysadmin:fishsticks@host.docker.internal:5432/sysadmin?sslmode=disable"
+      -smtp-host="smtp.mailtrap.io"
+      -smtp-port=2525
+      -smtp-username="YOUR_MAILTRAP_USERNAME"
+      -smtp-password="YOUR_MAILTRAP_PASSWORD"
+      -smtp-sender="SysAdmin App <no-reply@sysadmin.com>"
+      -cors-trusted-origins="http://localhost:5173"
+
+  # The Svelte Frontend Service
+  frontend:
+    build: ./frontend
+    container_name: sysadmin-frontend-compose
+    ports:
+      # Map port 5173 on your machine to port 80 inside the container (where Nginx is running).
+      - "5173:80"
+    # This tells Docker to wait for the backend service to be running before starting the frontend.
+    depends_on:
+      - backend
