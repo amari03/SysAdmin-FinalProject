@@ -1,5 +1,7 @@
 # Full-Stack Web App with Go, Svelte, and Docker
-This is the final project for the SysAdmin course. It is a minimal, full-stack web application featuring a Go backend API and a SvelteKit frontend. The entire application is containerized using Docker and orchestrated with Docker Compose for easy, one-command setup and deployment.
+This is the final project for the SysAdmin course.  
+Our web application is a Mood Tracker, where a user can document whatever mood they are feeling.  
+It is a minimal, full-stack web application featuring a Go backend API and a SvelteKit frontend. The entire application is containerized using Docker and orchestrated with Docker Compose for easy, one-command setup and deployment.
 ## **Key Features**
   - User Registration: New users can create an account.
   - Email Activation: Upon registration, users receive an email with an activation token to verify their account.
